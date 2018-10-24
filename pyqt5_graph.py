@@ -15,27 +15,6 @@ from pyqtgraph import QtCore, QtGui
 from pylsl import StreamInlet, resolve_stream
 
 
-class CustomPlot(pg.GraphicsObject):
-    def __init__(self, data):
-        pg.GraphicsObject.__init__(self)
-        self.data = data
-        self.generatePicture()
-
-    def generatePicture(self):
-        self.picture = QtGui.QPicture()
-        p = QtGui.QPainter(self.picture)
-        p.setPen(pg.mkPen('w', width=1/2.))
-        for (t, v) in self.data:
-            p.drawLine(QtCore.QPointF(t, v-2), QtCore.QPointF(t, v+2))
-        p.end()
-
-    def paint(self, p, *args):
-        p.drawPicture(0, 0, self.picture)
-
-    def boundingRect(self):
-        return QtCore.QRectF(self.picture.boundingRect())
-
-
 class Ui_MainWindow(object):
     def __init__(self):
         self.streams = resolve_stream('type', 'EEG')
@@ -44,7 +23,7 @@ class Ui_MainWindow(object):
         self.is_start = True
         self.x = []
         self.y = []
-        for i in range(8):
+        for i in range(16):
             self.y.append([])
 
         # self.x = 2*np.pi
